@@ -35,11 +35,12 @@ void Application::initWindow()
 
 void Application::createTrainers()
 {
+    // Create all the training data.
     for (int i = 0; i < numOfTrainingPoints; ++i)
     {
         int randX = getRandValue();
         int randY = getRandValue();
-        int answer = 1;                 // Default value assumes all points above the line +ve
+        int answer = 1;                 // Default value assumes all points start above the line +ve
         float funcAns = f(-randX);
 
         if (randY < funcAns)
@@ -70,6 +71,7 @@ int Application::getRandValue()
 float Application::f(float xPos)
 {
     return 2 * xPos + 1;
+    //return -std::pow(0.2 * xPos, 2) - ((size_t)2.0f * xPos) + 200;
 }
 
 void Application::update()
@@ -103,19 +105,22 @@ void Application::pollEvents()
 
 void Application::runTraining()
 {
+    // Train the perceptron (single node) using the precomputed training data.
     prc->train(training[count].inputs, training[count].answer);
     count = (count + 1) % training.size();
     //++count;
 
     for (int i = 0; i < count; ++i)
     {
+        // Retrieve what the guess was using the same training data.
+        // This is so we can colour each point based on location.
         int guess = prc->feedForward(training[i].inputs);
 
         singlePoint = sf::CircleShape(6.0f);
         singlePoint.setOrigin(3.0f, 3.0f);
         singlePoint.setPosition(sf::Vector2f(training[i].inputs[0], training[i].inputs[1]));
 
-        if (guess > 0)
+        if (guess < 0)
         {
             singlePoint.setFillColor(sf::Color::Blue);
         }
@@ -124,6 +129,7 @@ void Application::runTraining()
             singlePoint.setFillColor(sf::Color::Yellow);
         }
 
+        // Store all points for rendering later.
         allPoints.push_back(singlePoint);
     }
 }

@@ -1,3 +1,9 @@
+/*
+ * This class simply creates a line to visualise the function that
+ * used in the perceptron.
+ * 
+ */
+
 #include "Line.h"
 
 Line::Line(sf::RenderWindow* hwnd) : window(hwnd)
@@ -29,8 +35,8 @@ void Line::createLine()
             randXVal = -randXVal;
         }
 
-        // Not sure why, but to get the line as it should be according to Desmos graphing calculator7
-        // the negative value of the xVal must be passed.
+        // Not sure why, but to get the line as it should be according to Desmos graphing calculator
+        // the negative value of the xVal must be passed for a linear function, for a quadratic it can be passed as normal???
         float yVal = f(-randXVal);
 
         linePoints[i].color = sf::Color::Red;
@@ -55,6 +61,7 @@ int Line::getRandValue()
 float Line::f(float xPos)
 {
     return 2 * xPos + 1;
+    //return -std::pow(0.2 * xPos, 2) - ((size_t)2.0f * xPos) + 200;
 }
 
 void Line::render()

@@ -45,6 +45,7 @@ int Perceptron::feedForward(std::vector<int> inputs)
 {
 	sum = 0;
 
+	// Sum all the inputs * weight that are fed into the perceptron.
 	for (int i = 0; i < weights.size(); ++i)
 	{
 		sum += inputs[i] * weights[i];
@@ -68,6 +69,7 @@ void Perceptron::train(std::vector<int> inputs, int answer)
 	int guess = feedForward(inputs);
 	float error = answer - guess;
 
+	// Update the weights based on whether the guess was correct or not.
 	for (int i = 0; i < weights.size(); ++i)
 	{
 		weights[i] += learningRate * error * inputs[i];
